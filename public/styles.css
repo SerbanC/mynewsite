@@ -1,0 +1,84 @@
+/* custom properties */
+
+/* custom media queries */
+
+/* some var() & calc() */
+body {
+  color: rgba(51, 53, 85, 0.45882);
+
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 24px;
+  line-height: 1.5rem;
+  padding: calc(0.5rem + 1px);
+}
+
+main:media(--tablet) img {
+  float: left;
+  width: 300px;
+}
+
+img.\:container\(width\>\=768px\) {
+  float: left;
+  width: 300px;
+}
+
+/* custom media query usage */
+@media (max-width: 50rem) {
+  body { font-size: 1.2rem; }
+}
+
+/* custom selectors */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 { margin-top: 0 }
+
+/* colors stuff */
+a {
+  color: rgb(89, 185, 204);
+  -webkit-transition: color 1s;
+  transition: color 1s; /* autoprefixed ! */
+}
+a:link,a:visited { color: rgb(89, 142, 153) }
+a:hover { color: rgba(255, 255, 255, 0.5) }
+a:active { color: rgb(102, 51, 153) }
+
+/* font stuff */
+h2 {
+  -webkit-font-feature-settings: "c2sc";
+          font-feature-settings: "c2sc";
+  font-variant-caps: small-caps
+}
+h2 span {
+  color: rgb(89, 185, 204);
+}
+
+table {
+  -webkit-font-feature-settings: "lnum";
+          font-feature-settings: "lnum";
+  font-variant-numeric: lining-nums;
+}
+
+p h1,
+p h2,
+p h3,
+p h4,
+p h5,
+p h6 {
+  margin-bottom: 50px;
+}
+
+/* filters */
+.blur {
+  filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="4" /></filter></svg>#filter');
+  -webkit-filter: blur(4px);
+          filter: blur(4px);
+}
+.sepia {
+  filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feColorMatrix type="matrix" color-interpolation-filters="sRGB" values="0.5144 0.6152000000000001 0.1512 0 0 0.2792 0.7488 0.13440000000000002 0 0 0.21760000000000002 0.4272 0.30479999999999996 0 0 0 0 0 1 0" /></filter></svg>#filter');
+  -webkit-filter: sepia(.8);
+          filter: sepia(.8);
+}
