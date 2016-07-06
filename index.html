@@ -2,20 +2,29 @@
 <html>
 <head>
   <title>serbancarjan.ro</title>
+  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100" rel="stylesheet">
   <link rel="stylesheet" href="public/styles.css">
 </head>
 <body>
   <main class="Content">
     <section class="HomeScreen" id="js-homeScreen">
-      <h1 class="Heading Heading--main">Hello</h1>
-      <span class="SubHeading">This is a subheading</span>
-      <nav>
-        <ul>
-          <li><a href="/">Exp</a></li>
-          <li><a href="/">Skz</a></li>
-          <li><a href="/">Cnt</a></li>
+      <div class="Title">
+        <span class="SubHeading">hi, my name is</span>
+        <h1 class="Heading Heading--main">șerban cârjan</h1>
+        <span class="SubHeading">i'm a front-end developer<br /> living in bucharest</span>
+      </div>
+      <nav class="NavTabs">
+        <ul class="NavTabs-Container">
+          <li class="NavTabs-Item" data-tab="experience">
+            <h3>experience</h3>
+          </li><li class="NavTabs-Item" data-tab="skills">
+            <h3>skills</h3>
+          </li><li class="NavTabs-Item" data-tab="contact">
+            <h3>contact</h3>
+          </li>
         </ul>
       </nav>
+      <small class="FinePrint">background animation is an adaptation of <a href="http://tympanus.net/Development/AnimatedHeaderBackgrounds/" target="_blank">CoDrops' "connect three" example</a></small>
     </section>
   </main>
   <canvas class="Background" id="js-canvasBackground"></canvas>

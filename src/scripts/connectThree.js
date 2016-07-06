@@ -38,7 +38,8 @@ export default function animateBackground() {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(p.closest[i].x, p.closest[i].y);
-        ctx.strokeStyle = colorArray[Math.floor(Math.random() * colorArray.length)].call(this, p.active);
+        // ctx.strokeStyle = colorArray[Math.floor(Math.random() * colorArray.length)].call(this, p.active);
+        ctx.strokeStyle = `rgba(89, 185, 204, ${p.active})`;
         ctx.stroke();
       }
     }

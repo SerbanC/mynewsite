@@ -11,6 +11,7 @@
 
 body {
   margin: 0;
+  font-family: 'Alegreya Sans SC', sans-serif;
   font-size: var(--fontSize);
   line-height: calc(var(--fontSize) * 1.5);
   color: var(--mainColor);
@@ -33,7 +34,10 @@ body {
 
 /* custom selectors */
 @custom-selector :--heading h1, h2, h3, h4, h5, h6;
-:--heading { margin-top: 0 }
+:--heading {
+  margin: 0;
+  font-weight: normal;
+}
 
 a {
   color: var(--highlightColor);
@@ -43,25 +47,9 @@ a:any-link { color: color(var(--highlightColor) blackness(+20%)) }
 a:hover { color: gray(255, 50%) }
 a:active { color: rebeccapurple }
 
-h2 {
-  font-variant-caps: small-caps;
-
-  & span {
-    color: var(--highlightColor);
-  }
-}
-
 p :--heading {
   margin-bottom: 50px;
 }
-
-/* filters */
-/*.blur {
-  filter: blur(4px);
-}
-.sepia {
-  filter: sepia(.8);
-}*/
 
 .Background {
   position: fixed;
@@ -70,25 +58,76 @@ p :--heading {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--mainColor);
+  /*background-color: var(--mainColor);*/
 }
 
 .HomeScreen {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-flow: column nowrap;
+}
+
+.Title {
+  display: flex;
+  flex: 1;
+  flex-flow: column nowrap;
+  justify-content: center;
 }
 
 .Heading {
   font-size: 48px;
   color: var(--highlightColor);
   text-align: center;
+
+  &--main {
+    margin: 20px 0;
+    font-weight: normal;
+    line-height: 2;
+    letter-spacing: 1px;
+  }
+}
+
+.HeadingNote {
+  display: block;
+  font-size: 35%;
 }
 
 .SubHeading {
   display: block;
-  font-size: 30px;
+  font-size: 20px;
+  line-height: 1;
   color: var(--highlightColor);
   text-align: center;
+}
+
+.NavTabs {
+  width: 100%;
+  text-align: center;
+}
+
+.NavTabs-Container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.NavTabs-Item {
+  box-sizing: border-box;
+  display: inline-block;
+  width: calc(33% - .5px);
+  padding: 20px;
+  margin: 40px .5px;
+  background-color: #59b9cc50;
+  mix-blend-mode: screen;
+
+  h3 {
+    font-size: 20px;
+  }
+}
+
+.FinePrint {
+  margin-bottom: 10px;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
