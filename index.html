@@ -13,18 +13,56 @@
         <h1 class="Heading Heading--main">șerban cârjan</h1>
         <span class="SubHeading">i'm a front-end developer<br /> living in bucharest</span>
       </div>
-      <nav class="NavTabs">
-        <ul class="NavTabs-Container">
-          <li class="NavTabs-Item" data-tab="experience">
-            <h3>experience</h3>
-          </li><li class="NavTabs-Item" data-tab="skills">
-            <h3>skills</h3>
-          </li><li class="NavTabs-Item" data-tab="contact">
-            <h3>contact</h3>
-          </li>
-        </ul>
-      </nav>
-      <small class="FinePrint">background animation is an adaptation of <a href="http://tympanus.net/Development/AnimatedHeaderBackgrounds/" target="_blank">CoDrops' "connect three" example</a></small>
+      <footer class="Footer">
+        <nav class="NavTabs">
+          <ul class="NavTabs-Container">
+            <li class="Item" data-tab="experience">
+              <label for="tab-experience" class="Item-Control js-navTab">
+                <input type="radio" name="NavTabs" id="tab-experience" class="Item-Toggle" />
+                <h3 class="Item-Title">experience</h3>
+                <ul class="Item-Content">
+                  <li>
+                      <a href="/">Job 1</a>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate voluptates, maiores quibusdam dolores molestias quidem aliquam. Cumque repellat blanditiis vel commodi suscipit facere. Est, quasi, quo. Minus eos et odio.</p>
+                  </li>
+                  <li>
+                    <a href="/">Job 2</a>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate voluptates, maiores quibusdam dolores molestias quidem aliquam. Cumque repellat blanditiis vel commodi suscipit facere. Est, quasi, quo. Minus eos et odio.</p>
+                  </li>
+                  <li>
+                    <a href="/">Job 3</a>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate voluptates, maiores quibusdam dolores molestias quidem aliquam. Cumque repellat blanditiis vel commodi suscipit facere. Est, quasi, quo. Minus eos et odio.</p>
+                  </li>
+                </ul>
+              </label>
+            </li><li class="Item" data-tab="skills">
+              <label for="tab-skills" class="Item-Control js-navTab">
+                <input type="radio" name="NavTabs" id="tab-skills" class="Item-Toggle" />
+                <h3 class="Item-Title">skills</h3>
+                <ul class="Item-Content">
+                  <li>
+                      <a href="/">Job 1</a>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate voluptates, maiores quibusdam dolores molestias quidem aliquam. Cumque repellat blanditiis vel commodi suscipit facere. Est, quasi, quo. Minus eos et odio.</p>
+                  </li>
+                  <li>
+                    <a href="/">Job 2</a>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate voluptates, maiores quibusdam dolores molestias quidem aliquam. Cumque repellat blanditiis vel commodi suscipit facere. Est, quasi, quo. Minus eos et odio.</p>
+                  </li>
+                </ul>
+              </label>
+            </li><li class="Item" data-tab="contact">
+              <label for="tab-contact" class="Item-Control js-navTab">
+                <input type="radio" name="NavTabs" id="tab-contact" class="Item-Toggle" />
+                <h3 class="Item-Title">contact</h3>
+                <div class="Item-Content">
+                  <a href="/">contact@serbancarjan.ro</a>
+                </div>
+              </label>
+            </li>
+          </ul>
+        </nav>
+        <small class="FinePrint">background animation is an adaptation of <a href="http://tympanus.net/Development/AnimatedHeaderBackgrounds/" target="_blank">CoDrops' "connect three" example</a></small>
+      </footer>
     </section>
   </main>
   <canvas class="Background" id="js-canvasBackground"></canvas>

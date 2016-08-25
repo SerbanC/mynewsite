@@ -1,3 +1,5 @@
+@import 'animations.css';
+
 /* custom properties */
 :root {
   --fontSize: 1rem;
@@ -62,17 +64,33 @@ p :--heading {
 }
 
 .HomeScreen {
-  display: flex;
-  justify-content: space-between;
+  /*display: flex;
+  justify-content: flex-end;
   align-items: center;
-  flex-flow: column nowrap;
+  flex-flow: column nowrap;*/
 }
 
 .Title {
+  position: fixed;
+  top: 0;
+  bottom: 0;
   display: flex;
+  width: 100%;
   flex: 1;
   flex-flow: column nowrap;
   justify-content: center;
+  transition: all 750ms ease-out;
+}
+
+.Title--collapsed {
+  width: 100%;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  & .SubHeading {
+    opacity: 0;
+  }
 }
 
 .Heading {
@@ -99,6 +117,13 @@ p :--heading {
   line-height: 1;
   color: var(--highlightColor);
   text-align: center;
+  transition: all 750ms ease-out;
+}
+
+.Footer {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
 }
 
 .NavTabs {
@@ -112,12 +137,11 @@ p :--heading {
   list-style: none;
 }
 
-.NavTabs-Item {
+.Item {
   box-sizing: border-box;
   display: inline-block;
   width: calc(33% - .5px);
-  padding: 20px;
-  margin: 40px .5px;
+  margin: 0 .5px;
   background-color: #59b9cc50;
   mix-blend-mode: screen;
 
@@ -126,8 +150,45 @@ p :--heading {
   }
 }
 
+.Item-Title {
+  display: inline-block;
+  /*animation: slideLeft 500ms forwards paused;*/
+  transition: all 750ms ease-in-out;
+}
+
+.Item-Content {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+  text-align: left;
+  transition: max-height 1s ease-out;
+}
+
+.Item-Control {
+  display: block;
+  padding: 20px;
+}
+
+.Item-Toggle {
+  position: absolute;
+  visibility: hidden;
+}
+
+.Item-Toggle:checked ~ .Item-Content {
+  max-height: 400px;
+}
+
+.Item-Toggle:checked ~ .Item-Title {
+  /*color: #FFF;*/
+  transform: translate3d(-150%, 0, 0) scale(1.5);
+  /*animation-play-state: running;*/
+}
+
 .FinePrint {
-  margin-bottom: 10px;
+  display: block;
+  margin: 20px 0 10px;
   font-size: 12px;
   letter-spacing: 1px;
 }
