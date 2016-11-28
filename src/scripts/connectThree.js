@@ -1,15 +1,14 @@
 /*
- * Connect Three background animation from CoDrops
+ * Based on Connect Three background animation from CoDrops
+ * http://tympanus.net/Development/AnimatedHeaderBackgrounds/
  */
 
 import TweenLite from 'gsap';
-// eslint-disable-next-line no-duplicate-imports
 import Circ from 'gsap';
 
 export default function animateBackground() {
   let width;
   let height;
-  let homeScreen;
   let target;
   let animateHeader = true;
   let canvas;
@@ -34,7 +33,7 @@ export default function animateBackground() {
   function drawLines(p) {
     if (!p.active) return;
     for (const i in p.closest) {
-      if ({}.hasOwnProperty.call(p.closest, i)) {
+      if (p.closest.hasOwnProperty(i) && {}.hasOwnProperty.call(p.closest, i)) {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(p.closest[i].x, p.closest[i].y);
@@ -64,14 +63,10 @@ export default function animateBackground() {
     };
   }
 
-  function initHeader() {
+  function initDrawing() {
     width = window.innerWidth;
     height = window.innerHeight;
-    target = { x: width / 2, y: height / 2 };
-
-    homeScreen = document.getElementById('js-homeScreen');
-    homeScreen.style.height = `${height}px`;
-
+    target = {x: width / 2, y: height / 2};
     canvas = document.getElementById('js-canvasBackground');
     canvas.width = width;
     canvas.height = height;
@@ -83,7 +78,12 @@ export default function animateBackground() {
       for (let y = 0; y < height; y = y + height / 20) {
         const px = x + Math.random() * width / 20;
         const py = y + Math.random() * height / 20;
-        const p = { x: px, originX: px, y: py, originY: py };
+        const p = {
+          x: px,
+          originX: px,
+          y: py,
+          originY: py
+        };
         points.push(p);
       }
     }
@@ -122,36 +122,46 @@ export default function animateBackground() {
     for (const i in points) {
       if ({}.hasOwnProperty.call(points, i)) {
         const fillColor = colorArrayStrong[Math.floor(Math.random() * colorArray.length)];
-        const c = new Circle(points[i], 2 + Math.random() * 2, fillColor);
-        points[i].circle = c;
+        points[i].circle = new Circle(points[i], 2 + Math.random() * 2, fillColor);
       }
     }
   }
 
   // Event handling
-  function scrollCheck() {
-    if (document.body.scrollTop > height) animateHeader = false;
-    else animateHeader = true;
-  }
+
+  // Originally used to shut down the animation when the canvas was offscreen.
+  // function scrollCheck() {
+  //   return animateHeader = !(document.body.scrollTop > height);
+  // }
 
   function mouseMove(e) {
-    let posx;
-    let posy;
-    if (e.pageX || e.pageY) {
-      posx = e.pageX;
-      posy = e.pageY;
-    } else if (e.clientX || e.clientY) {
-      posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    // let posX;
+    // let posY;
+    // if (e.pageX || e.pageY) {
+    //   posX = e.pageX - window.scrollX;
+    //   posY = e.pageY - window.scrollY;
+    // } else if (e.clientX || e.clientY) {
+    //   posX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+    //   posY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    // }
+    if (e.clientX || e.clientY) {
+      // Option 1: Tween the target point to the cursor position
+      return TweenLite.to(target, 0.5 + Math.random(), {
+        x: e.clientX,
+        y: e.clientY,
+        ease: Circ.easeInOut
+      });
+
+      // Option 2: Reset the target point to the cursor position
+      // target.x = posX;
+      // target.y = posY;
     }
-    target.x = posx;
-    target.y = posy;
+
   }
 
   function resize() {
     width = window.innerWidth;
     height = window.innerHeight;
-    homeScreen.style.height = `${height}px`;
     canvas.width = width;
     canvas.height = height;
   }
@@ -160,7 +170,8 @@ export default function animateBackground() {
     if (!('ontouchstart' in window)) {
       window.addEventListener('mousemove', mouseMove);
     }
-    window.addEventListener('scroll', scrollCheck);
+    // No longer needed, check ::132
+    // window.addEventListener('scroll', scrollCheck);
     window.addEventListener('resize', resize);
   }
 
@@ -169,30 +180,32 @@ export default function animateBackground() {
     if (animateHeader) {
       ctx.clearRect(0, 0, width, height);
       for (const i in points) {
-        // detect points in range
-        if (Math.abs(getDistance(target, points[i])) < 4000) {
-          points[i].active = 0.3;
-          points[i].circle.active = 0.6;
-        } else if (Math.abs(getDistance(target, points[i])) < 20000) {
-          points[i].active = 0.1;
-          points[i].circle.active = 0.3;
-        } else if (Math.abs(getDistance(target, points[i])) < 40000) {
-          points[i].active = 0.02;
-          points[i].circle.active = 0.1;
-        } else {
-          points[i].active = 0;
-          points[i].circle.active = 0;
-        }
+        if (points.hasOwnProperty(i)) {
+          // detect points in range
+          if (Math.abs(getDistance(target, points[i])) < 4000) {
+            points[i].active = 0.3;
+            points[i].circle.active = 0.6;
+          } else if (Math.abs(getDistance(target, points[i])) < 20000) {
+            points[i].active = 0.1;
+            points[i].circle.active = 0.3;
+          } else if (Math.abs(getDistance(target, points[i])) < 40000) {
+            points[i].active = 0.02;
+            points[i].circle.active = 0.1;
+          } else {
+            points[i].active = 0;
+            points[i].circle.active = 0;
+          }
 
-        drawLines(points[i]);
-        points[i].circle.draw();
+          drawLines(points[i]);
+          points[i].circle.draw();
+        }
       }
     }
     requestAnimationFrame(animate);
   }
 
   function shiftPoint(p) {
-    TweenLite.to(p, 1 + 1 * Math.random(), {
+    TweenLite.to(p, 1 + Math.random(), {
       x: p.originX - 50 + Math.random() * 100,
       y: p.originY - 50 + Math.random() * 100,
       ease: Circ.easeInOut,
@@ -205,12 +218,14 @@ export default function animateBackground() {
   function initAnimation() {
     animate();
     for (const i in points) {
-      if ({}.hasOwnProperty.call(points, i)) shiftPoint(points[i]);
+      if (points.hasOwnProperty(i) && {}.hasOwnProperty.call(points, i)) {
+        shiftPoint(points[i]);
+      }
     }
   }
 
   // Main
-  initHeader();
+  initDrawing();
   initAnimation();
   addListeners();
 }

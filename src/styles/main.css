@@ -1,5 +1,7 @@
 @import 'animations.css';
 
+/*TODO: add sourcemaps?*/
+
 /* custom properties */
 :root {
   --fontSize: 1rem;
@@ -11,12 +13,21 @@
 @custom-media --viewport-medium (width <= 50rem);
 @custom-media --tablet (width >= 768px);
 
+html,
+body,
+.Content,
+.HomeScreen {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Alegreya Sans SC', sans-serif;
   font-size: var(--fontSize);
   line-height: calc(var(--fontSize) * 1.5);
   color: var(--mainColor);
+  pointer-events: none;
+  user-select: none;
 }
 
 /*main:media(--tablet) img {
@@ -38,16 +49,26 @@ body {
 @custom-selector :--heading h1, h2, h3, h4, h5, h6;
 :--heading {
   margin: 0;
-  font-weight: normal;
+  /*font-weight: normal;*/
 }
 
 a {
   color: var(--highlightColor);
-  transition: color 1s;
+  transition: color 150ms;
+  pointer-events: auto;
 }
-a:any-link { color: color(var(--highlightColor) blackness(+20%)) }
-a:hover { color: gray(255, 50%) }
-a:active { color: rebeccapurple }
+
+a:any-link {
+  color: color(var(--highlightColor) blackness(+20%))
+}
+
+a:hover {
+  color: black;
+}
+
+a:active {
+  color: rebeccapurple
+}
 
 p :--heading {
   margin-bottom: 50px;
@@ -57,50 +78,37 @@ p :--heading {
   position: fixed;
   z-index: -1;
   top: 0;
-  right: 0;
-  bottom: 0;
   left: 0;
+  width: 100%;
   /*background-color: var(--mainColor);*/
 }
 
 .HomeScreen {
-  /*display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-flow: column nowrap;*/
+  height: 100%;
+  /*background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 50%,rgba(255,255,255,0.75) 100%);*/
 }
 
-.Title {
-  position: fixed;
-  top: 0;
-  bottom: 0;
+.Title,
+.Info,
+.Contact {
+  height: 100%;
   display: flex;
   width: 100%;
   flex: 1;
   flex-flow: column nowrap;
   justify-content: center;
-  transition: all 750ms ease-out;
-}
-
-.Title--collapsed {
-  width: 100%;
-  flex-flow: row;
-  justify-content: flex-start;
-  align-items: center;
-
-  & .SubHeading {
-    opacity: 0;
-  }
 }
 
 .Heading {
   font-size: 48px;
+  line-height: 1.5;
   color: var(--highlightColor);
   text-align: center;
+  text-transform: lowercase;
 
   &--main {
     margin: 20px 0;
-    font-weight: normal;
+    /*font-weight: normal;*/
     line-height: 2;
     letter-spacing: 1px;
   }
@@ -114,81 +122,54 @@ p :--heading {
 .SubHeading {
   display: block;
   font-size: 20px;
+  font-weight: bolder;
   line-height: 1;
-  color: var(--highlightColor);
+  /*color: var(--highlightColor);*/
+  color: var(--mainColor);
   text-align: center;
+  text-transform: lowercase;
   transition: all 750ms ease-out;
 }
 
+.Text {
+  max-width: 30em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18px;
+}
+
+.Info,
+.Contact {
+  /*padding-bottom: 10em;*/
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+50 */
+  background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
+}
+
+.Info,
+.Contact,
 .Footer {
-  position: fixed;
-  bottom: 0;
+  /*background-color: rgba(255,255,255, 0.75);*/
+}
+
+.Contact {
   text-align: center;
 }
 
-.NavTabs {
-  width: 100%;
-  text-align: center;
-}
-
-.NavTabs-Container {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.Item {
-  box-sizing: border-box;
-  display: inline-block;
-  width: calc(33% - .5px);
-  margin: 0 .5px;
-  background-color: #59b9cc50;
-  mix-blend-mode: screen;
-
-  h3 {
-    font-size: 20px;
-  }
-}
-
-.Item-Title {
-  display: inline-block;
-  /*animation: slideLeft 500ms forwards paused;*/
-  transition: all 750ms ease-in-out;
-}
-
-.Item-Content {
-  max-height: 0;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  overflow: hidden;
-  text-align: left;
-  transition: max-height 1s ease-out;
-}
-
-.Item-Control {
+.FootNote {
   display: block;
-  padding: 20px;
+  margin-top: 1em;
+  font-size: 75%;
+  text-transform: lowercase;
+  letter-spacing: 1px;
 }
 
-.Item-Toggle {
-  position: absolute;
-  visibility: hidden;
-}
-
-.Item-Toggle:checked ~ .Item-Content {
-  max-height: 400px;
-}
-
-.Item-Toggle:checked ~ .Item-Title {
-  /*color: #FFF;*/
-  transform: translate3d(-150%, 0, 0) scale(1.5);
-  /*animation-play-state: running;*/
+.Footer {
+  display: block;
+  padding: 20px 0 10px;
+  text-align: center;
 }
 
 .FinePrint {
-  display: block;
-  margin: 20px 0 10px;
   font-size: 12px;
   letter-spacing: 1px;
 }
