@@ -1,77 +1,117 @@
-@import 'animations.css';
+/**
+ * Uses CSSNext via PostCSS.
+ * http://cssnext.io/features/
+ */
 
-/*TODO: add sourcemaps?*/
 
-/* custom properties */
+/**
+ * Custom properties
+ * http://cssnext.io/features/#custom-properties-var
+ *
+ * Custom properties set
+ * http://cssnext.io/features/#custom-properties-set-apply
+ *
+ * HWB color function
+ * http://cssnext.io/features/#hwb-function
+ */
 :root {
-  --fontSize: 1rem;
+  --fontSize: 10px;
+  --headingFontSize: 7.6rem;
+  --copyFontSize: 1.6rem;
+  --smallFontSize: 1.2rem;
+
   --mainColor: #333;
   --highlightColor: hwb(190, 35%, 20%);
-}
 
-/* custom media queries */
-@custom-media --viewport-medium (width <= 50rem);
-@custom-media --tablet (width >= 768px);
+  --flexCentered: {
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 html,
 body,
-.Content,
-.HomeScreen {
+.Content {
   height: 100%;
+}
+
+html {
+  font-size: var(--fontSize);
 }
 
 body {
   margin: 0;
   font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: var(--fontSize);
-  line-height: calc(var(--fontSize) * 1.5);
+  font-size: var(--copyFontSize);
+  line-height: 1.5;
   color: var(--mainColor);
-  pointer-events: none;
+  /* Mouse listeners won't work with this */
+  /*pointer-events: none;*/
   user-select: none;
 }
 
-/*main:media(--tablet) img {
+/**
+ * Container queries (not working?)
+ */
+/*
+main:media(--tablet) img {
   float: left;
   width: 300px;
-}*/
-
-/*img:container(width >= 768px) {
-  float: left;
-  width: 300px;
-}*/
-
-/* custom media query usage */
-@media (--viewport-medium) {
-  body { font-size: calc(var(--fontSize) * 1.2); }
 }
 
-/* custom selectors */
+img:container(width >= 768px) {
+  float: left;
+  width: 300px;
+}
+*/
+
+/**
+ * Custom media queries
+ * http://cssnext.io/features/#custom-media-queries
+ *
+ * Media queries ranges
+ * http://cssnext.io/features/#media-queries-ranges
+ */
+@custom-media --tablet (width >= 768px);
+
+@media (--tablet) {
+  body {
+    font-size: var(--copyFontSize);
+  }
+}
+
+/**
+ * Custom selectors
+ * http://cssnext.io/features/#custom-selectors
+ */
 @custom-selector :--heading h1, h2, h3, h4, h5, h6;
+
 :--heading {
   margin: 0;
-  /*font-weight: normal;*/
+  font-weight: normal;
 }
 
-a {
+/**
+ * :any-link pseudoclass
+ * http://cssnext.io/features/#any-link-pseudo-class
+ *
+ * Nesting
+ * http://cssnext.io/features/#nesting
+ *
+ * Color function
+ * http://cssnext.io/features/#color-function
+ */
+:any-link {
   color: var(--highlightColor);
   transition: color 150ms;
-  pointer-events: auto;
-}
 
-a:any-link {
-  color: color(var(--highlightColor) blackness(+20%))
-}
-
-a:hover {
-  color: black;
-}
-
-a:active {
-  color: rebeccapurple
+  &:hover {
+    color: color(var(--highlightColor) blackness(+20%));
+  }
 }
 
 p :--heading {
-  margin-bottom: 50px;
+  margin-bottom: calc(var(--fontSize) * 5);
 }
 
 .Background {
@@ -80,75 +120,59 @@ p :--heading {
   top: 0;
   left: 0;
   width: 100%;
-  /*background-color: var(--mainColor);*/
 }
 
-.HomeScreen {
-  height: 100%;
-  /*background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 50%,rgba(255,255,255,0.75) 100%);*/
-}
-
-.Title,
+/**
+ * Custom properties @apply
+ * http://cssnext.io/features/#custom-properties-set-apply
+ */
+.HomeScreen,
 .Info,
 .Contact {
   height: 100%;
-  display: flex;
   width: 100%;
-  flex: 1;
+  display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  @apply --flexCentered;
 }
 
 .Heading {
-  font-size: 48px;
+  font-size: var(--headingFontSize);
   line-height: 1.5;
   color: var(--highlightColor);
   text-align: center;
   text-transform: lowercase;
 
   &--main {
-    margin: 20px 0;
-    /*font-weight: normal;*/
+    margin: 0.3em 0;
     line-height: 2;
-    letter-spacing: 1px;
+    letter-spacing: 0.1rem;
   }
-}
-
-.HeadingNote {
-  display: block;
-  font-size: 35%;
 }
 
 .SubHeading {
   display: block;
-  font-size: 20px;
-  font-weight: bolder;
+  font-size: 2rem;
   line-height: 1;
-  /*color: var(--highlightColor);*/
   color: var(--mainColor);
   text-align: center;
   text-transform: lowercase;
-  transition: all 750ms ease-out;
 }
 
 .Text {
   max-width: 30em;
   margin-left: auto;
   margin-right: auto;
-  font-size: 18px;
 }
 
+/**
+ * rgb() function (functional notation)
+ * http://cssnext.io/features/#rgb-function-functional-notation
+ */
 .Info,
 .Contact {
-  /*padding-bottom: 10em;*/
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+50 */
-  background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%);
-}
-
-.Info,
-.Contact,
-.Footer {
-  /*background-color: rgba(255,255,255, 0.75);*/
+  background: radial-gradient(ellipse at center, rgb(255 255 255 / 1) 0%, rgb(255 255 255 / 0) 50%, rgb(255 255 255 / 0) 100%);
 }
 
 .Contact {
@@ -160,16 +184,20 @@ p :--heading {
   margin-top: 1em;
   font-size: 75%;
   text-transform: lowercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.1rem;
 }
 
 .Footer {
-  display: block;
-  padding: 20px 0 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 0 1rem;
   text-align: center;
+  background-color: #fff;
 }
 
 .FinePrint {
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: var(--smallFontSize);
+  letter-spacing: 0.1rem;
 }

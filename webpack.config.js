@@ -10,6 +10,7 @@ var reporter = require('postcss-reporter');
 
 var postCSSConfig = function(webpack) {
   return [
+    // CSSNext contains autoprefixer
     cssnext(),
     containerQueries({
       postcss: true,
@@ -41,10 +42,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('css!postcss'),
+        loader: ExtractTextPlugin.extract('css?sourceMap!postcss'),
       },
     ],
   },
+
+  devtool: "#source-map",
 
   postcss: postCSSConfig,
 
