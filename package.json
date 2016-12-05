@@ -1,12 +1,14 @@
 {
-  "name": "newsite",
-  "version": "1.0.0",
-  "description": "",
+  "name": "serbancarjan.ro",
+  "version": "2.0.0",
+  "description": "personal website of front end developer Șerban Cârjan",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot"
+    // TODO: clear /public on "start", minify?
+    "start": "webpack-dev-server --inline --hot",
+    "build": "webpack"
   },
-  "author": "Serban Carjan",
+  "author": "Șerban Cârjan",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
