@@ -2,7 +2,7 @@ import animateBackground from './connectThree.js';
 import TiltFx from './tiltHover.js';
 
 (function(){
-  // animateBackground();
+  animateBackground();
 
   const tiltHoverableElements = document.querySelectorAll('.js-tiltFx');
   const options = {

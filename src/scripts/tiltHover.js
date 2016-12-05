@@ -26,17 +26,24 @@ function getMousePos(e) {
   return {x: posx, y: posy}
 }
 
+/**
+ * Class representing CSS transform effects on mouse move
+ */
 export default class TiltFx {
   /**
-   * TiltFx class constructor
-   * @param {list} elements - Comes in as a StaticNodeList. Use Array.prototype.slice.call(elements) to convert it to Array if needed.
-   * @param {object} options
+   * Create the effects for a set of elements
+   * @param {array} elements - The collection of Nodes that will receive the effects. Comes in as a StaticNodeList. Use Array.prototype.slice.call(elements) to convert it to Array if needed.
+   * @param {object} options - The options for the effects.
+   * @returns {function} TiltFx
    */
   constructor(elements, options) {
     this.DOM = {
       animatable: elements
     };
 
+    /**
+     * Default options
+     */
     this.options = {
       movement: {
         translation: {

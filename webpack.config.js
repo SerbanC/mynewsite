@@ -25,7 +25,7 @@ var postCSSConfig = function(webpack) {
 module.exports = {
   entry: {
     'main': './index.js',
-    'vendor': 'vendor.js',
+    // 'vendor': 'vendor.js',
   },
 
   output: {
