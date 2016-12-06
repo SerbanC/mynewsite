@@ -26,6 +26,14 @@
   --flexCentered: {
     align-items: center;
     justify-content: center;
+  };
+
+  --navLink: {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-decoration: none;
+    text-transform: lowercase;
   }
 }
 
@@ -129,11 +137,28 @@ p :--heading {
 .HomeScreen,
 .Info,
 .Contact {
+  position: relative;
   height: 100%;
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
   @apply --flexCentered;
+}
+
+.Card {
+  transform: translateZ(0);
+}
+
+.NavLink {
+  @apply --navLink;
+
+  &:first-child {
+    top: 30px;
+  }
+
+  &:last-child {
+    bottom: 60px;
+  }
 }
 
 .Heading {
@@ -194,7 +219,7 @@ p :--heading {
   width: 100%;
   padding: 2rem 0 1rem;
   text-align: center;
-  background-color: #fff;
+  /*background-color: #fff;*/
 }
 
 .FinePrint {

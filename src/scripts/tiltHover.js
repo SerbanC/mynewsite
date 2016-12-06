@@ -1,6 +1,6 @@
 import anime from 'animejs';
 
-/**
+/*!
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  *
@@ -96,12 +96,12 @@ export default class TiltFx {
       anime(opt);
     });
 
-    const elementsArray = Array.prototype.slice.call(this.DOM.animatable);
+    // const elementsArray = Array.prototype.slice.call(this.DOM.animatable);
 
     this.DOM.animatable.forEach((animatableElement) => {
       const animationCanvas = animatableElement.parentNode;
-      const elementPosition = elementsArray.indexOf(animatableElement);
-      const otherElements = elementsArray.filter(el => elementsArray.indexOf(el) !== elementPosition);
+      // const elementPosition = elementsArray.indexOf(animatableElement);
+      // const otherElements = elementsArray.filter(el => elementsArray.indexOf(el) !== elementPosition);
 
       // animationCanvas.addEventListener('mouseenter', handleMouseEnter.bind(null, otherElements));
       animationCanvas.addEventListener('mousemove', handleMouseMove.bind(null, animatableElement));

@@ -1,14 +1,15 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // PostCSS modules
-var cssnext = require('postcss-cssnext');
-var containerQueries = require('cq-prolyfill/postcss-plugin');
-var browserReporter = require('postcss-browser-reporter');
-var reporter = require('postcss-reporter');
+const cssnext = require('postcss-cssnext');
+const containerQueries = require('cq-prolyfill/postcss-plugin');
+const browserReporter = require('postcss-browser-reporter');
+const reporter = require('postcss-reporter');
 
-var postCSSConfig = function(webpack) {
+const postCSSConfig = function (webpack) {
   return [
     // CSSNext contains autoprefixer
     cssnext(),
@@ -30,29 +31,37 @@ module.exports = {
 
   output: {
     path: __dirname,
-    filename: 'public/[name].js',
+    filename: 'public/[name].min.js',
   },
 
   module: {
     loaders: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel',
+        exclude: /(node_modules|public)/,
+        loader: 'babel'
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('css?sourceMap!postcss'),
-      },
-    ],
+        exclude: /public/,
+        loader: ExtractTextPlugin.extract([
+          'css',
+          'postcss'
+        ])
+      }
+    ]
   },
 
-  devtool: "#source-map",
+  // devtool: "#source-map",
+  devtool: "#eval",
 
   postcss: postCSSConfig,
 
   plugins: [
     new ExtractTextPlugin('public/styles.css'),
+    // new webpack.optimize.UglifyJsPlugin(),
+    // new webpack.optimize.DedupePlugin(),
+    // new CleanWebpackPlugin(['public'])
   ],
 
   resolve: {

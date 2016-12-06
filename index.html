@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
   <title>Șerban Cârjan - Front End Developer from Bucharest</title>
+  <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100" rel="stylesheet">
   <link rel="stylesheet" href="public/styles.css">
 </head>
 <body>
 <main class="Content">
-  <section class="HomeScreen">
+  <section class="HomeScreen" id="home">
     <div class="Card js-tiltFx">
       <span class="SubHeading">Hi, my name is</span>
-      <!--<h1 class="Heading Heading&#45;&#45;main">Fu Manchu</h1>-->
       <h1 class="Heading Heading--main">Șerban Cârjan</h1>
       <span class="SubHeading">I'm a front-end developer<br>living in Bucharest</span>
     </div>
+    <a href="#info" class="NavLink" data-scroll>&darr; Info</a>
   </section>
 
-  <section class="Info">
+  <section class="Info" id="info">
+    <a href="#home" class="NavLink" data-scroll>&uarr; Home</a>
     <div class="Card js-tiltFx">
       <h1 class="Heading">Info</h1>
       <p class="Text">
@@ -34,9 +36,11 @@
         <small class="FootNote">* HTML and CSS are implied :)</small>
       </p>
     </div>
+    <a href="#contact" class="NavLink" data-scroll>&darr; Contact</a>
   </section>
 
-  <section class="Contact">
+  <section class="Contact" id="contact">
+    <a href="#info" class="NavLink" data-scroll>&uarr; Info</a>
     <div class="Card js-tiltFx">
       <h1 class="Heading">Contact</h1>
       <p class="Text">
@@ -57,7 +61,6 @@
 </main>
 <canvas class="Background" id="js-canvasBackground"></canvas>
 
-<script src="public/main.js"></script>
-<!--<script src="public/vendor.js"></script>-->
+<script src="public/main.min.js"></script>
 </body>
 </html>
