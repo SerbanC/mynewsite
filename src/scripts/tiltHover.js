@@ -42,7 +42,7 @@ export default class TiltFx {
     };
 
     /**
-     * Default options
+     * Default options, will be overridden by instance param
      */
     this.options = {
       movement: {
@@ -80,12 +80,12 @@ export default class TiltFx {
     const handleMouseLeave = (animatableElement) => window.requestAnimationFrame(() => {
       const opt = {
         targets: animatableElement,
-        duration: this.options.movement.reverseAnimation.duration,
-        easing: this.options.movement.reverseAnimation.easing,
-        elasticity: this.options.movement.reverseAnimation.elasticity,
-        scaleX: 1,
-        scaleY: 1,
-        scaleZ: 1,
+        duration: this.options.movement.exitAnimation.duration,
+        easing: this.options.movement.exitAnimation.easing,
+        elasticity: this.options.movement.exitAnimation.elasticity,
+        // scaleX: 1,
+        // scaleY: 1,
+        // scaleZ: 1,
         translateX: 0,
         translateY: 0,
         translateZ: 0,
