@@ -1,7 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
+const validate = require('webpack-validator');
+
+// Plugins
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+// Libs
+const libs = require('./webpack/libs.config.js');
+
+const PATHS = {
+  app: path.join(__dirname, 'src'),
+  build: path.join(__dirname, 'public'),
+  scripts: path.join(__dirname, 'src', 'scripts'),
+  styles: path.join(__dirname, 'src', 'styles'),
+};
 
 // PostCSS modules
 const cssnext = require('postcss-cssnext');
@@ -23,23 +35,25 @@ const postCSSConfig = function (webpack) {
   ];
 };
 
-module.exports = {
+module.exports = validate({
   entry: {
-    'main': './index.js',
+    app: PATHS.app
+    // 'main': './index.js',
     // 'vendor': 'vendor.js',
   },
 
   output: {
-    path: __dirname,
-    filename: 'public/[name].min.js',
+    path: PATHS.build,
+    filename: '[name]-[hash].js',
   },
 
   module: {
     loaders: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|public)/,
-        loader: 'babel'
+        // exclude: /(node_modules|public)/,
+        loader: 'babel',
+        include: PATHS.scripts
       },
       {
         test: /\.css$/,
@@ -47,7 +61,8 @@ module.exports = {
         loader: ExtractTextPlugin.extract([
           'css',
           'postcss'
-        ])
+        ]),
+        include: PATHS.styles
       }
     ]
   },
@@ -57,16 +72,16 @@ module.exports = {
 
   postcss: postCSSConfig,
 
-  plugins: [
-    new ExtractTextPlugin('public/styles.css'),
-    // new webpack.optimize.UglifyJsPlugin(),
-    // new webpack.optimize.DedupePlugin(),
-    // new CleanWebpackPlugin(['public'])
-  ],
+  plugins: libs.plugins(),
 
   resolve: {
     root: [
-      path.join(__dirname, 'src/scripts'),
+      PATHS.scripts,
     ],
-  }
-};
+  },
+
+  devServer: libs.devServer({
+    host: process.env.HOST,
+    port: process.env.PORT
+  })
+});

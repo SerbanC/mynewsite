@@ -4,8 +4,9 @@
   "description": "personal website of front end developer Șerban Cârjan",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot",
-    "build": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --progress --colors",
+    "build": "webpack --config webpack-production.config.js --progress --profile --colors"
   },
   "author": "Șerban Cârjan",
   "license": "ISC",
@@ -24,13 +25,16 @@
     "eslint-plugin-jsx-a11y": "^1.5.3",
     "eslint-plugin-react": "^5.2.2",
     "extract-text-webpack-plugin": "^1.0.1",
+    "favicons-webpack-plugin": "^0.0.7",
+    "html-webpack-plugin": "^2.24.1",
     "postcss-browser-reporter": "^0.5.0",
     "postcss-cssnext": "^2.5.2",
     "postcss-loader": "^0.9.1",
     "postcss-reporter": "^1.3.3",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "webpack-validator": "^2.2.11"
   },
   "dependencies": {
     "animejs": "^1.1.1",
