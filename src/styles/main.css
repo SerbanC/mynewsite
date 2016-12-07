@@ -111,7 +111,7 @@ img:container(width >= 768px) {
  */
 :any-link {
   color: var(--highlightColor);
-  transition: color 150ms;
+  transition: color 150ms ease, opacity 500ms ease;
 
   &:hover {
     color: color(var(--highlightColor) blackness(+20%));
@@ -128,6 +128,10 @@ p :--heading {
   top: 0;
   left: 0;
   width: 100%;
+
+  &--static {
+    z-index: -2;
+  }
 }
 
 /**
@@ -151,6 +155,7 @@ p :--heading {
 
 .NavLink {
   @apply --navLink;
+  opacity: 1;
 
   &:first-child {
     top: 30px;
@@ -158,6 +163,10 @@ p :--heading {
 
   &:last-child {
     bottom: 60px;
+  }
+
+  &--hidden {
+    opacity: 0;
   }
 }
 
