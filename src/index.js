@@ -1,2 +1,2 @@
-import './styles/main.css';
-import './scripts/main.js';
+require('./styles/main.css');
+require('./scripts/main.js');

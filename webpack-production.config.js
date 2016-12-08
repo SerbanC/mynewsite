@@ -1,3 +1,7 @@
+// Local
+const pkg = require('./package.json');
+
+// Node & Webpack
 const path = require('path');
 const webpack = require('webpack');
 
@@ -10,7 +14,8 @@ const CleanPlugin = require('clean-webpack-plugin');
 const PATHS = {
   app: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'public'),
-  scripts: path.join(__dirname, 'scripts'),
+  scripts: path.join(__dirname, 'src', 'scripts'),
+  styles: path.join(__dirname, 'src', 'styles'),
 };
 
 // PostCSS modules
@@ -19,8 +24,42 @@ const containerQueries = require('cq-prolyfill/postcss-plugin');
 const browserReporter = require('postcss-browser-reporter');
 const reporter = require('postcss-reporter');
 
-const postCSSConfig = function (webpack) {
-  return [
+const config = {
+  loaders: [
+    {
+      test: /\.js$/,
+      loader: 'babel',
+      include: PATHS.scripts
+    },
+    {
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract('style', [
+        'css',
+        'postcss'
+      ]),
+      include: PATHS.styles
+    }
+  ],
+
+  plugins: [
+    new CleanPlugin([PATHS.build], { root: process.cwd() }),
+    new HtmlPlugin({
+      title: 'Șerban Cârjan - Front End Developer from Bucharest'
+    }),
+    // new FaviconsPlugin('ADDFAVICONHERE'),
+    new ExtractTextPlugin('styles.[chunkHash].css'),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor', 'manifest']
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.optimize.DedupePlugin()
+  ],
+
+  postCSS: [
     // CSSNext contains autoprefixer
     cssnext(),
     containerQueries({
@@ -30,54 +69,30 @@ const postCSSConfig = function (webpack) {
     reporter({
       clearMessages: true,
     })
-  ];
+  ]
 };
 
 module.exports = {
   entry: {
-    app: PATHS.app
-    // 'main': './index.js',
-    // 'vendor': 'vendor.js',
+    app: PATHS.app,
+    vendor: Object.keys(pkg.dependencies)
   },
 
   output: {
     path: PATHS.build,
-    filename: '[name]-[chunkHash].js',
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[chunkhash].js'
   },
 
   module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /(node_modules|public)/,
-        loader: 'babel'
-      },
-      {
-        test: /\.css$/,
-        exclude: /public/,
-        loader: ExtractTextPlugin.extract([
-          'css',
-          'postcss'
-        ])
-      }
-    ]
+    loaders: config.loaders
   },
 
-  // devtool: "#source-map",
-  devtool: "#eval",
+  devtool: "#source-map",
 
-  postcss: postCSSConfig,
+  postcss: config.postCSS,
 
-  plugins: [
-    new CleanPlugin(['public']),
-    new HtmlPlugin({
-      title: 'Șerban Cârjan - Front End Developer from Bucharest'
-    }),
-    // new FaviconsPlugin('ADDFAVICONHERE'),
-    new ExtractTextPlugin('styles-[chunkHash].css'),
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.DedupePlugin()
-  ],
+  plugins: config.plugins,
 
   resolve: {
     root: [
