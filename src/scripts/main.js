@@ -39,7 +39,7 @@ const options = {
   }
 };
 
-(function () {
+(() => {
   animateBackground();
   smoothScroll.init();
   // document.body.appendChild(pattern.svg()).classList.add('Background', 'Background--static');

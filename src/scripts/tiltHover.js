@@ -13,7 +13,8 @@ import anime from 'animejs';
 
 // from http://www.quirksmode.org/js/events_properties.html#position
 function getMousePos(e) {
-  let posx = 0, posy = 0;
+  let posx = 0;
+  let posy = 0;
   if (!e) e = window.event;
   if (e.pageX || e.pageY) {
     posx = e.pageX;
@@ -23,7 +24,7 @@ function getMousePos(e) {
     posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
     posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
   }
-  return {x: posx, y: posy}
+  return { x: posx, y: posy };
 }
 
 /**
@@ -110,11 +111,15 @@ export default class TiltFx {
   }
 
   layout(event, animatableElement) {
-    let t, r;
-    let mousepos = getMousePos(event);
+    const mousepos = getMousePos(event);
     const bounds = animatableElement.parentNode.getBoundingClientRect();
+    // t = this.options.movement.translation !== undefined ? this.options.movement.translation || {x: 0, y: 0, z: 0} : {x: 0, y: 0, z: 0};
+    // r = this.options.movement.rotation !== undefined ? this.options.movement.rotation || {x: 0, y: 0, z: 0} : {x: 0, y: 0, z: 0};
+    const t = this.options.movement.translation;
+    const r = this.options.movement.rotation;
 
-    let docScrolls = {
+
+    const docScrolls = {
       left: document.body.scrollLeft + document.documentElement.scrollLeft,
       top: document.body.scrollTop + document.documentElement.scrollTop
     };
@@ -124,7 +129,7 @@ export default class TiltFx {
       y: mousepos.y - bounds.top - docScrolls.top
     };
 
-    const setRange = function (obj) {
+    const setRange = (obj) => {
       for (let k in obj) {
         if (obj.hasOwnProperty(k)) {
           if (obj[k] == undefined) {
@@ -136,11 +141,6 @@ export default class TiltFx {
         }
       }
     };
-
-    // t = this.options.movement.translation !== undefined ? this.options.movement.translation || {x: 0, y: 0, z: 0} : {x: 0, y: 0, z: 0};
-    // r = this.options.movement.rotation !== undefined ? this.options.movement.rotation || {x: 0, y: 0, z: 0} : {x: 0, y: 0, z: 0};
-    t = this.options.movement.translation;
-    r = this.options.movement.rotation;
 
     setRange(t);
     setRange(r);

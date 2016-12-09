@@ -3,14 +3,16 @@
  * http://tympanus.net/Development/AnimatedHeaderBackgrounds/
  */
 
+/* eslint-disable no-duplicate-imports */
 import TweenLite from 'gsap';
 import Circ from 'gsap';
+/* eslint-enable */
 
 export default function animateBackground() {
   let width;
   let height;
   let target;
-  let animateHeader = true;
+  const animateHeader = true;
   let canvas;
   let ctx;
   let points;
@@ -66,7 +68,7 @@ export default function animateBackground() {
   function initDrawing() {
     width = window.innerWidth;
     height = window.innerHeight;
-    target = {x: width / 2, y: height / 2};
+    target = { x: width / 2, y: height / 2 };
     canvas = document.getElementById('js-canvasBackground');
     canvas.width = width;
     canvas.height = height;
@@ -156,7 +158,7 @@ export default function animateBackground() {
       // target.x = posX;
       // target.y = posY;
     }
-
+    return null;
   }
 
   function resize() {
