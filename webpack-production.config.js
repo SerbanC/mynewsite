@@ -4,12 +4,14 @@ const pkg = require('./package.json');
 // Node & Webpack
 const path = require('path');
 const webpack = require('webpack');
+const validate = require('webpack-validator');
 
 // Plugins
 const HtmlPlugin = require("html-webpack-plugin");
 const FaviconsPlugin = require("favicons-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require('clean-webpack-plugin');
+const VisualizerPlugin = require('webpack-visualizer-plugin');
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
@@ -44,7 +46,8 @@ const config = {
   plugins: [
     new CleanPlugin([PATHS.build], { root: process.cwd() }),
     new HtmlPlugin({
-      title: 'Șerban Cârjan - Front End Developer from Bucharest'
+      title: 'Șerban Cârjan - Front End Developer from Bucharest',
+      template: path.join(PATHS.app, 'index.ejs')
     }),
     // new FaviconsPlugin('ADDFAVICONHERE'),
     new ExtractTextPlugin('styles.[chunkHash].css'),
@@ -56,7 +59,8 @@ const config = {
         warnings: false
       }
     }),
-    new webpack.optimize.DedupePlugin()
+    new webpack.optimize.DedupePlugin(),
+    new VisualizerPlugin()
   ],
 
   postCSS: [
@@ -72,7 +76,7 @@ const config = {
   ]
 };
 
-module.exports = {
+module.exports = validate({
   entry: {
     app: PATHS.app,
     vendor: Object.keys(pkg.dependencies)
@@ -99,4 +103,4 @@ module.exports = {
       PATHS.scripts,
     ],
   }
-};
+});

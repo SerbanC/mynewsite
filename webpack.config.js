@@ -7,7 +7,6 @@ const webpack = require('webpack');
 const validate = require('webpack-validator');
 
 // Plugins
-// const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
 
 // Libs
@@ -40,13 +39,11 @@ const config = {
   loaders: [
     {
       test: /\.js$/,
-      // exclude: /(node_modules|public)/,
       loader: 'babel',
       include: PATHS.scripts
     },
     {
       test: /\.css$/,
-      // exclude: /public/,
       loaders: [
         'style',
         'css',
@@ -61,9 +58,9 @@ const config = {
       multiStep: true
     }),
     new HtmlPlugin({
-      title: 'Șerban Cârjan - Front End Developer from Bucharest'
+      title: 'Șerban Cârjan - Front End Developer from Bucharest',
+      template: path.join(PATHS.app, 'index.ejs')
     }),
-    // new ExtractTextPlugin('styles.css'),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest']
     })
