@@ -1,0 +1,14 @@
+{
+  "source": {
+    "include": "./src/scripts"
+  },
+  "title": "serbancarjan.ro Docs",
+  "opts": {
+    "destination": "./out/jsdoc",
+    "readme": "./README.md",
+    "package": "./package.json"
+  },
+  "markdown": {
+    "idInHeadings": true
+  }
+}

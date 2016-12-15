@@ -9,9 +9,6 @@ const validate = require('webpack-validator');
 // Plugins
 const HtmlPlugin = require("html-webpack-plugin");
 
-// Libs
-// const libs = require('./webpack/libs.config.js');
-
 const PATHS = {
   app: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'public'),

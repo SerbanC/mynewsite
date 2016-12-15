@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --progress --colors",
-    "build": "webpack --config webpack-production.config.js --progress --profile --colors"
+    "build": "webpack --config webpack-production.config.js --progress --profile --colors",
+    "esdoc": "esdoc -c esdoc.json",
+    "jsdoc": "jsdoc -c jsdoc.json"
   },
   "author": "Șerban Cârjan",
   "license": "ISC",
@@ -19,6 +21,7 @@
     "clean-webpack-plugin": "^0.1.14",
     "cq-prolyfill": "^0.3.2",
     "css-loader": "^0.23.1",
+    "esdoc": "^0.4.8",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.10.1",
@@ -27,6 +30,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "favicons-webpack-plugin": "^0.0.7",
     "html-webpack-plugin": "^2.24.1",
+    "jsdoc": "^3.4.3",
     "postcss-browser-reporter": "^0.5.0",
     "postcss-cssnext": "^2.5.2",
     "postcss-loader": "^0.9.1",

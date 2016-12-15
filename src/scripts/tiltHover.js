@@ -1,5 +1,7 @@
 import anime from 'animejs';
 
+import { getMousePosition } from 'utils';
+
 /*!
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
@@ -11,39 +13,27 @@ import anime from 'animejs';
  * http://serbancarjan.ro
  */
 
-// from http://www.quirksmode.org/js/events_properties.html#position
-function getMousePos(e) {
-  let posx = 0;
-  let posy = 0;
-  if (!e) e = window.event;
-  if (e.pageX || e.pageY) {
-    posx = e.pageX;
-    posy = e.pageY;
-  }
-  else if (e.clientX || e.clientY) {
-    posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-    posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-  }
-  return { x: posx, y: posy };
-}
-
 /**
- * Class representing CSS transform effects on mouse move
+ * CSS transform effects on mouse move
  */
-export default class TiltFx {
+class TiltFx {
   /**
    * Create the effects for a set of elements
-   * @param {array} elements - The collection of Nodes that will receive the effects. Comes in as a StaticNodeList. Use Array.prototype.slice.call(elements) to convert it to Array if needed.
-   * @param {object} options - The options for the effects.
-   * @returns {function} TiltFx
+   * @param {NodeList} elements - The collection of Nodes that will receive the effects. Comes in as a StaticNodeList. Can use Array.prototype.slice.call(elements) to convert it to Array if needed.
+   * @param {Object} options - The options for the effects.
    */
   constructor(elements, options) {
+    /**
+     * Holds the DOM nodes that will be animated
+     * @type {{animatable: array}}
+     */
     this.DOM = {
       animatable: elements
     };
 
     /**
      * Default options, will be overridden by instance param
+     * @type {{movement: {translation: {x: number, y: number, z: number}, rotation: {x: number, y: number, z: number}, reverseAnimation: {duration: number, easing: string, elasticity: number}}}}
      */
     this.options = {
       movement: {
@@ -65,6 +55,9 @@ export default class TiltFx {
       }
     };
 
+    /**
+     * Apply user-provided options over the default ones
+     */
     Object.assign(this.options, options);
 
     this.init();
@@ -74,6 +67,9 @@ export default class TiltFx {
     this.initEvents();
   }
 
+  /**
+   * Sets up mouse event listeners and their callbacks
+   */
   initEvents() {
     // Not sure what this does
     // const handleMouseEnter = (otherElements) => otherElements.forEach((el) => anime.remove(el));
@@ -110,8 +106,13 @@ export default class TiltFx {
     });
   }
 
+  /**
+   * Sets the layout as inline transforms
+   * @param {object} event - mouse event on which the layout gets triggered
+   * @param {DOMNode} animatableElement - the node which receives the layout change
+   */
   layout(event, animatableElement) {
-    const mousepos = getMousePos(event);
+    const mousepos = getMousePosition(event);
     const bounds = animatableElement.parentNode.getBoundingClientRect();
     // t = this.options.movement.translation !== undefined ? this.options.movement.translation || {x: 0, y: 0, z: 0} : {x: 0, y: 0, z: 0};
     // r = this.options.movement.rotation !== undefined ? this.options.movement.rotation || {x: 0, y: 0, z: 0} : {x: 0, y: 0, z: 0};
@@ -161,3 +162,5 @@ export default class TiltFx {
     animatableElement.style.WebkitTransform = animatableElement.style.transform = `translateX(${transforms.translation.x}px) translateY(${transforms.translation.y}px) translateZ(${transforms.translation.z}px) rotateX(${transforms.rotation.x}deg) rotateY(${transforms.rotation.y}deg) rotateZ(${transforms.rotation.z}deg)`;
   }
 }
+
+export default TiltFx;

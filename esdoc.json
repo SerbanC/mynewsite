@@ -1,0 +1,11 @@
+{
+  "source": "./src",
+  "destination": "./out/esdoc/scripts",
+  "index": "./README.md",
+  "package": "./package.json",
+  "title": "serbancarjan.ro Docs",
+  "manual": {
+    "overview": ["./manual/overview.md"],
+    "installation": ["./manual/installation.md"]
+  }
+}
