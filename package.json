@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --progress --colors",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
-    "esdoc": "esdoc -c esdoc.json",
-    "jsdoc": "jsdoc -c jsdoc.json"
+    "esdoc": "rm -rf ./out/esdoc && esdoc -c esdoc.json",
+    "jsdoc": "rm -rf ./out/jsdoc && jsdoc -c jsdoc.json"
   },
   "author": "Șerban Cârjan",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "cq-prolyfill": "^0.3.2",
     "css-loader": "^0.23.1",
     "esdoc": "^0.4.8",
+    "esdoc-importpath-plugin": "^0.0.1",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.10.1",

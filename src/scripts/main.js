@@ -1,30 +1,9 @@
 import smoothScroll from 'smooth-scroll';
 // import Trianglify from 'trianglify';
 
-import animateBackground from './connectThree.js';
-import TiltFx from './tiltHover.js';
-
-/**
- * Check the scroll position of the website and show/hide section nav links based on it
- * @function
- * @param {array} panels - all the sections of the website (home, info, contact)
- */
-function checkNavLinks(panels) {
-  panels.forEach((panel) => {
-    const panelHeight = panel.offsetHeight;
-    const offsetOfTopFromViewport = panel.getBoundingClientRect().top;
-    const offsetOfBottomFromViewport = panel.getBoundingClientRect().bottom;
-
-    /**
-     * When a panel is halfway on screen (either from the top or from the bottom), show its nav links and hide all others
-     */
-    if (offsetOfTopFromViewport < panelHeight / 2 && offsetOfBottomFromViewport > panelHeight / 2) {
-      panel.querySelectorAll('.NavLink').forEach((navLink) => navLink.classList.contains('NavLink--hidden') && navLink.classList.remove('NavLink--hidden'));
-    } else {
-      panel.querySelectorAll('.NavLink').forEach((navLink) => !navLink.classList.contains('NavLink--hidden') && navLink.classList.add('NavLink--hidden'));
-    }
-  });
-}
+import animateBackground from './backgroundAnimation.js';
+import TiltFx from './cssTransformsOnMouse.js';
+import checkIfInViewport from './Utils/checkIfInViewport';
 
 const panels = document.querySelectorAll(('.Panel'));
 
@@ -37,21 +16,39 @@ const panels = document.querySelectorAll(('.Panel'));
   // cell_size: 75
 });*/
 
-const tiltHoverableElements = document.querySelectorAll('.js-tiltFx');
-const options = {
+const tiltableElements = document.querySelectorAll('.js-tiltFx');
+const tiltableOptions = {
   movement: {
-    translation: {x: 15, y: 15, z: 15},
-    rotation: {x: 15, y: -15, z: 0},
-    enterAnimation: {duration: 100, easing: 'easeInQuad', elasticity: 600},
-    exitAnimation: {duration: 500, easing: 'easeOutElastic', elasticity: 100}
+    translation: { x: 15, y: 15, z: 15 },
+    rotation: { x: 15, y: -15, z: 0 },
+    enterAnimation: { duration: 100, easing: 'easeInQuad', elasticity: 600 },
+    exitAnimation: { duration: 500, easing: 'easeOutElastic', elasticity: 100 }
   }
 };
-// const tilt = new TiltFx(tiltHoverableElements, options);
+const tiltables = new TiltFx(tiltableElements, tiltableOptions);
+
+function toggleNavLinks(elements) {
+  for (let i = 0; i < Object.keys(elements).length; i++) {
+    if (elements[Object.keys(elements)[i]]) {
+      const visiblePanel = document.querySelector(`#${Object.keys(elements)[i]}`);
+
+      visiblePanel.querySelectorAll('.NavLink').forEach((navLink) => {
+        navLink.classList.remove('NavLink--hidden');
+      });
+    } else {
+      const invisiblePanel = document.querySelector(`#${Object.keys(elements)[i]}`);
+
+      invisiblePanel.querySelectorAll('.NavLink').forEach((navLink) => {
+        navLink.classList.add('NavLink--hidden');
+      });
+    }
+  }
+}
 
 (() => {
   animateBackground();
   smoothScroll.init();
   // document.body.appendChild(pattern.svg()).classList.add('Background', 'Background--static');
-  new TiltFx(tiltHoverableElements, options);
-  window.addEventListener('scroll', checkNavLinks.bind(null, panels));
+  tiltables.init();
+  window.addEventListener('scroll', checkIfInViewport.bind(null, panels, 'id', toggleNavLinks));
 })();

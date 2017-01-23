@@ -1,11 +1,18 @@
 {
-  "source": "./src",
-  "destination": "./out/esdoc/scripts",
+  "source": "./src/scripts",
+  "destination": "./out/esdoc",
+  "access": ["public", "protected", "private"],
   "index": "./README.md",
   "package": "./package.json",
   "title": "serbancarjan.ro Docs",
-  "manual": {
-    "overview": ["./manual/overview.md"],
-    "installation": ["./manual/installation.md"]
-  }
+  "plugins": [
+    {
+      "name": "esdoc-importpath-plugin",
+      "option": {
+        "replaces": [
+          {"from": "^scripts/", "to": ""}
+        ]
+      }
+    }
+  ]
 }

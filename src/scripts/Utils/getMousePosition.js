@@ -1,12 +1,10 @@
-/** @module utils */
-
 /**
  * Gets the mouse pointer position.
  * From {@link http://www.quirksmode.org/js/events_properties.html#position}.
  * @param {Object} [e = window.event] - Event
- * @returns {Object} x and y coordinates
+ * @returns {Object} - x and y coordinates
  */
-export function getMousePosition(e = window.event) {
+export default function getMousePosition(e = window.event) {
   let posx = 0;
   let posy = 0;
 

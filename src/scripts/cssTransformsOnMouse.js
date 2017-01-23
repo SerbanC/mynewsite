@@ -1,6 +1,6 @@
 import anime from 'animejs';
 
-import { getMousePosition } from 'utils';
+import getMousePosition from 'Utils/getMousePosition';
 
 /*!
  * Licensed under the MIT license.
@@ -14,26 +14,24 @@ import { getMousePosition } from 'utils';
  */
 
 /**
- * CSS transform effects on mouse move
+ * Applies inline CSS transforms on mouse move
  */
-class TiltFx {
+export default class cssTransformsOnMouse {
   /**
-   * Create the effects for a set of elements
-   * @param {NodeList} elements - The collection of Nodes that will receive the effects. Comes in as a StaticNodeList. Can use Array.prototype.slice.call(elements) to convert it to Array if needed.
-   * @param {Object} options - The options for the effects.
+   * Create the effects for a set of elements, optionally using a set of options
+   * @param {NodeList} elements - The collection of Nodes that will receive the effects. Comes in as a StaticNodeList. Can use Array.prototype.slice.call(elements) to convert it to Array if needed
+   * @param {Object} [options] - The options for the effects
    */
   constructor(elements, options) {
     /**
      * Holds the DOM nodes that will be animated
-     * @type {{animatable: array}}
+     * @type {NodeList}
      */
-    this.DOM = {
-      animatable: elements
-    };
+    this.animatableElements = elements;
 
     /**
      * Default options, will be overridden by instance param
-     * @type {{movement: {translation: {x: number, y: number, z: number}, rotation: {x: number, y: number, z: number}, reverseAnimation: {duration: number, easing: string, elasticity: number}}}}
+     * @type {Object}
      */
     this.options = {
       movement: {
@@ -55,26 +53,24 @@ class TiltFx {
       }
     };
 
-    /**
-     * Apply user-provided options over the default ones
-     */
     Object.assign(this.options, options);
-
-    this.init();
-  }
-
-  init() {
-    this.initEvents();
   }
 
   /**
-   * Sets up mouse event listeners and their callbacks
+   * mouseMove handler. Updates the transforms on the `animatableElement` based on the `event`
+   * @param {Node} animatableElement - a DOM Node
+   * @param {Object} event - the mouseMove event
    */
-  initEvents() {
-    // Not sure what this does
-    // const handleMouseEnter = (otherElements) => otherElements.forEach((el) => anime.remove(el));
-    const handleMouseMove = (animatableElement, event) => window.requestAnimationFrame(() => this.layout(event, animatableElement));
-    const handleMouseLeave = (animatableElement) => window.requestAnimationFrame(() => {
+  handleMouseMove(animatableElement, event) {
+    window.requestAnimationFrame(() => this.layout(event, animatableElement));
+  }
+
+  /**
+   * mouseLeave handler
+   * @param {Node} animatableElement - a DOM Node
+   */
+  handleMouseLeave(animatableElement) {
+    window.requestAnimationFrame(() => {
       const opt = {
         targets: animatableElement,
         duration: this.options.movement.exitAnimation.duration,
@@ -92,24 +88,30 @@ class TiltFx {
       };
       anime(opt);
     });
+  }
 
-    // const elementsArray = Array.prototype.slice.call(this.DOM.animatable);
+  /**
+   * Sets up event listeners for `mouseMove` and `mouseLeave` and their callbacks
+   */
+  init() {
+    // Not sure what this does
+    // const handleMouseEnter = (otherElements) => otherElements.forEach((el) => anime.remove(el));
 
-    this.DOM.animatable.forEach((animatableElement) => {
+    this.animatableElements.forEach((animatableElement) => {
       const animationCanvas = animatableElement.parentNode;
       // const elementPosition = elementsArray.indexOf(animatableElement);
       // const otherElements = elementsArray.filter(el => elementsArray.indexOf(el) !== elementPosition);
 
       // animationCanvas.addEventListener('mouseenter', handleMouseEnter.bind(null, otherElements));
-      animationCanvas.addEventListener('mousemove', handleMouseMove.bind(null, animatableElement));
-      animationCanvas.addEventListener('mouseleave', handleMouseLeave.bind(null, animatableElement));
+      animationCanvas.addEventListener('mousemove', this.handleMouseMove.bind(this, animatableElement));
+      animationCanvas.addEventListener('mouseleave', this.handleMouseLeave.bind(this, animatableElement));
     });
   }
 
   /**
    * Sets the layout as inline transforms
-   * @param {object} event - mouse event on which the layout gets triggered
-   * @param {DOMNode} animatableElement - the node which receives the layout change
+   * @param {Object} event - mouse event on which the layout gets triggered
+   * @param {Node} animatableElement - the node which receives the layout change
    */
   layout(event, animatableElement) {
     const mousepos = getMousePosition(event);
@@ -162,5 +164,3 @@ class TiltFx {
     animatableElement.style.WebkitTransform = animatableElement.style.transform = `translateX(${transforms.translation.x}px) translateY(${transforms.translation.y}px) translateZ(${transforms.translation.z}px) rotateX(${transforms.rotation.x}deg) rotateY(${transforms.rotation.y}deg) rotateZ(${transforms.rotation.z}deg)`;
   }
 }
-
-export default TiltFx;
