@@ -15,10 +15,10 @@
  * http://cssnext.io/features/#hwb-function
  */
 :root {
-  --fontSize: 10px;
-  --headingFontSize: 7.6rem;
-  --copyFontSize: 1.6rem;
-  --smallFontSize: 1.2rem;
+  --baseFontSize: 0.625em; /* 10px */
+  --headingFontSize: 12vmin;
+  --copyFontSize: 4vmin;
+  --smallFontSize: 1.5vmin;
 
   --mainColor: #333;
   --highlightColor: hwb(190, 35%, 20%);
@@ -28,14 +28,24 @@
     justify-content: center;
   };
 
-  --navLink: {
-    position: absolute;
+  --inlineNavLink: {
     left: 50%;
     transform: translateX(-50%);
-    text-decoration: none;
     text-transform: lowercase;
   }
 }
+
+/**
+ * Custom media queries
+ * http://cssnext.io/features/#custom-media-queries
+ *
+ * Media queries ranges
+ * http://cssnext.io/features/#media-queries-ranges
+ */
+@custom-media --small (width >= 576px);
+@custom-media --medium (width >= 768px);
+@custom-media --large (width >= 992px);
+@custom-media --wide (width >= 1200px);
 
 html,
 body,
@@ -44,7 +54,13 @@ body,
 }
 
 html {
-  font-size: var(--fontSize);
+  font-size: var(--baseFontSize);
+}
+
+@media (--medium) {
+  html {
+    font-size: calc(var(--baseFontSize) * 1.6);
+  }
 }
 
 body {
@@ -53,16 +69,29 @@ body {
   font-size: var(--copyFontSize);
   line-height: 1.5;
   color: var(--mainColor);
+  text-rendering: optimizeLegibility;
   /* Mouse listeners won't work with this */
   /*pointer-events: none;*/
   user-select: none;
+}
+
+@media (--medium) {
+  body {
+    font-size: 1.6rem;
+  }
+}
+
+@media (--large) {
+  body {
+    font-size: 1.4rem;
+  }
 }
 
 /**
  * Container queries (not working?)
  */
 /*
-main:media(--tablet) img {
+main:media(--medium) img {
   float: left;
   width: 300px;
 }
@@ -72,21 +101,6 @@ img:container(width >= 768px) {
   width: 300px;
 }
 */
-
-/**
- * Custom media queries
- * http://cssnext.io/features/#custom-media-queries
- *
- * Media queries ranges
- * http://cssnext.io/features/#media-queries-ranges
- */
-@custom-media --tablet (width >= 768px);
-
-@media (--tablet) {
-  body {
-    font-size: var(--copyFontSize);
-  }
-}
 
 /**
  * Custom selectors
@@ -119,7 +133,7 @@ img:container(width >= 768px) {
 }
 
 p :--heading {
-  margin-bottom: calc(var(--fontSize) * 5);
+  margin-bottom: calc(var(--baseFontSize) * 5);
 }
 
 .Background {
@@ -137,16 +151,38 @@ p :--heading {
 /**
  * Custom properties @apply
  * http://cssnext.io/features/#custom-properties-set-apply
+ *
+ * rgb() function (functional notation)
+ * http://cssnext.io/features/#rgb-function-functional-notation
  */
-.HomeScreen,
-.Info,
-.Contact {
+.Panel {
+  box-sizing: border-box;
   position: relative;
   height: 100%;
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
   @apply --flexCentered;
+  padding-left: 10vmin;
+  padding-right: 10vmin;
+  background: radial-gradient(ellipse at center, rgb(255 255 255 / 1) 0%, rgb(255 255 255 / 0.5) 50%, rgb(255 255 255 / 0) 100%);
+}
+
+@media (--medium) {
+  .Panel {
+    background: radial-gradient(ellipse at center, rgb(255 255 255 / 0.8) 0%, rgb(255 255 255 / 0) 50%, rgb(255 255 255 / 0) 100%);
+  }
+}
+
+@media (--large) {
+  .Panel {
+    padding-left: 0;
+    padding-right: 0;
+
+  &.HomeScreen {
+      background: transparent;
+    }
+  }
 }
 
 .Card {
@@ -154,19 +190,39 @@ p :--heading {
 }
 
 .NavLink {
-  @apply --navLink;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  line-height: 10vh;
+  text-decoration: none;
   opacity: 1;
 
   &:first-child {
-    top: 30px;
+    top: 0;
   }
 
   &:last-child {
-    bottom: 60px;
+    bottom: 0;
   }
 
   &--hidden {
     opacity: 0;
+  }
+}
+
+@media (--large) {
+  .NavLink {
+    @apply --inlineNavLink;
+    width: auto;
+    line-height: normal;
+
+    &:first-child {
+      top: 30px;
+    }
+
+    &:last-child {
+      bottom: 60px;
+    }
   }
 }
 
@@ -184,29 +240,43 @@ p :--heading {
   }
 }
 
+@media (--medium) {
+  .Heading {
+    font-size: 10vmin;
+  }
+}
+
+@media (--large) {
+  .Heading {
+    font-size: 3.6rem;
+  }
+}
+
 .SubHeading {
   display: block;
-  font-size: 2rem;
+  font-size: 7vmin;
   line-height: 1;
   color: var(--mainColor);
   text-align: center;
   text-transform: lowercase;
 }
 
+@media (--medium) {
+  .SubHeading {
+    font-size: 5vmin;
+  }
+}
+
+@media (--large) {
+  .SubHeading {
+    font-size: 1.8rem;
+  }
+}
+
 .Text {
   max-width: 30em;
   margin-left: auto;
   margin-right: auto;
-}
-
-/**
- * rgb() function (functional notation)
- * http://cssnext.io/features/#rgb-function-functional-notation
- */
-.Info,
-.Contact {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+50 */
-  background: radial-gradient(ellipse at center, rgb(255 255 255 / 1) 0%, rgb(255 255 255 / 0) 50%, rgb(255 255 255 / 0) 100%);
 }
 
 .Contact {
@@ -222,16 +292,35 @@ p :--heading {
 }
 
 .Footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 2rem 0 1rem;
-  text-align: center;
-  background-color: #fff;
+  display: none;
+}
+
+@media (--large) {
+  .Footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 0;
+    text-align: center;
+    background-color: #fff;
+  }
 }
 
 .FinePrint {
-  font-size: var(--smallFontSize);
+  font-size: 1rem;
   letter-spacing: 0.1rem;
 }
+
+/*@media (--medium) {*/
+  /*.FinePrint {*/
+    /*font-size: var(--smallFontSize);*/
+  /*}*/
+/*}*/
+
+/*@media (--large) {*/
+  /*.FinePrint {*/
+    /*font-size: 2rem;*/
+  /*}*/
+/*}*/

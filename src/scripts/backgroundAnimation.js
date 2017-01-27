@@ -8,7 +8,7 @@ import TweenLite from 'gsap';
 import Circ from 'gsap';
 /* eslint-enable */
 
-export default function animateBackground() {
+export default function animateBackground(options) {
   let width;
   let height;
   let target;
@@ -39,6 +39,7 @@ export default function animateBackground() {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(p.closest[i].x, p.closest[i].y);
+        ctx.lineWidth = options.lines.strokeWidth || 1;
         // ctx.strokeStyle = colorArray[Math.floor(Math.random() * colorArray.length)].call(this, p.active);
         ctx.strokeStyle = `rgba(89, 185, 204, ${p.active})`;
         ctx.stroke();
@@ -76,10 +77,10 @@ export default function animateBackground() {
 
     // create points
     points = [];
-    for (let x = 0; x < width; x = x + width / 20) {
-      for (let y = 0; y < height; y = y + height / 20) {
-        const px = x + Math.random() * width / 20;
-        const py = y + Math.random() * height / 20;
+    for (let x = 0; x < width; x = x + width / options.points.count) {
+      for (let y = 0; y < height; y = y + height / options.points.count) {
+        const px = x + Math.random() * width / options.points.count;
+        const py = y + Math.random() * height / options.points.count;
         const p = {
           x: px,
           originX: px,
@@ -124,14 +125,14 @@ export default function animateBackground() {
     for (const i in points) {
       if ({}.hasOwnProperty.call(points, i)) {
         const fillColor = colorArrayStrong[Math.floor(Math.random() * colorArray.length)];
-        points[i].circle = new Circle(points[i], 2 + Math.random() * 2, fillColor);
+        points[i].circle = new Circle(points[i], options.points.size + Math.random() * 2, fillColor);
       }
     }
   }
 
   // Event handling
 
-  // Originally used to shut down the animation when the canvas was offscreen.
+  // ** Originally used to shut down the animation when the canvas was offscreen.
   // function scrollCheck() {
   //   return animateHeader = !(document.body.scrollTop > height);
   // }
@@ -172,7 +173,7 @@ export default function animateBackground() {
     if (!('ontouchstart' in window)) {
       window.addEventListener('mousemove', mouseMove);
     }
-    // No longer needed, check ::132
+    // No longer needed **
     // window.addEventListener('scroll', scrollCheck);
     window.addEventListener('resize', resize);
   }
@@ -184,19 +185,23 @@ export default function animateBackground() {
       for (const i in points) {
         if (points.hasOwnProperty(i)) {
           // detect points in range
-          if (Math.abs(getDistance(target, points[i])) < 4000) {
+          if (Math.abs(getDistance(target, points[i])) < options.points.distance / 10) {
             points[i].active = 0.3;
             points[i].circle.active = 0.6;
-          } else if (Math.abs(getDistance(target, points[i])) < 20000) {
+          } else if (Math.abs(getDistance(target, points[i])) < options.points.distance / 2) {
             points[i].active = 0.1;
             points[i].circle.active = 0.3;
-          } else if (Math.abs(getDistance(target, points[i])) < 40000) {
+          } else if (Math.abs(getDistance(target, points[i])) < options.points.distance) {
             points[i].active = 0.02;
             points[i].circle.active = 0.1;
           } else {
             points[i].active = 0;
             points[i].circle.active = 0;
           }
+
+          // Use this instead of the above conditional in order to remove alpha transparency
+          // points[i].active = 1;
+          // points[i].circle.active = 1;
 
           drawLines(points[i]);
           points[i].circle.draw();
@@ -219,6 +224,7 @@ export default function animateBackground() {
 
   function initAnimation() {
     animate();
+
     for (const i in points) {
       if (points.hasOwnProperty(i) && {}.hasOwnProperty.call(points, i)) {
         shiftPoint(points[i]);
@@ -229,5 +235,5 @@ export default function animateBackground() {
   // Main
   initDrawing();
   initAnimation();
-  addListeners();
+  options.followMouse && addListeners();
 }
